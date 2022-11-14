@@ -186,97 +186,14 @@
             })
         });
     </script>
-<!--    <script>-->
-
-<!--        $(document).ready(function () {-->
-
-
-<!--            // $("#password").blur(function () {-->
-<!--            //     if (password2.test($("#password").val())) {-->
-<!--            //-->
-<!--            //         $("#passwordError2").text('비밀번호 입력 성공!');-->
-<!--            //         $('#passwordError2').css('color', 'blue');-->
-<!--            //-->
-<!--            //         return passwordDB = true;-->
-<!--            //-->
-<!--            //     } else {-->
-<!--            //         $('#passwordError2').text('비밀번호를 확인해주세요');-->
-<!--            //         $('#passwordError2').css('color', 'red');-->
-<!--            //-->
-<!--            //         return passwordDB = false;-->
-<!--            //     }-->
-<!--            // });-->
-
-
-<!--            $("#email").blur(function () {-->
-<!--                if (email2.test($("#email").val())) {-->
-
-<!--                    $('#emailError').text('이메일 입력 성공!');-->
-<!--                    $('#emailError').css('color', 'blue');-->
-
-<!--                    return emailDB = true;-->
-
-<!--                } else {-->
-<!--                    $('#emailError').text('이메일을 확인해주세요');-->
-<!--                    $('#emailError').css('color', 'red');-->
-
-<!--                    return emailDB = false;-->
-<!--                }-->
-<!--            });-->
-
-<!--            $("#phone_number").blur(function () {-->
-<!--                if (phone_number2.test($("#phone_number").val())) {-->
-
-<!--                    $('#phone_numberError').text('핸드폰번호 입력 성공!');-->
-<!--                    $('#phone_numberError').css('color', 'blue');-->
-<!--                    return phone_numberDB = true;-->
-
-<!--                } else {-->
-<!--                    $('#phone_numberError').text('핸드폰번호를 확인해주세요');-->
-<!--                    $('#phone_numberError').css('color', 'red');-->
-<!--                    return phone_numberDB = false;-->
-<!--                }-->
-<!--            });-->
-
-<!--            $("#test").click(function () {-->
-<!--                var id = document.querySelector('#name');-->
-<!--                var password = document.querySelector('#password');-->
-<!--                var email = document.querySelector('#email');-->
-<!--                var phone_number = document.querySelector('#phone_number');-->
-<!--                var test = document.getElementById("test");-->
-
-
-<!--                if (id.value == "" || password.value == "" || email.value == "" || phone_number.value == "") {-->
-<!--                    alert("빈칸을 채워주세요.")-->
-<!--                } else if (idDB === true && passwordDB === true && c() === true && emailDB === true && phone_numberDB === true) {-->
-
-<!--                    alert("회원가입을 축하합니다.")-->
-
-<!--                    test.type = "submit";-->
-<!--                } else {-->
-<!--                    alert("내용을 정확히 입력해주세요.")-->
-<!--                }-->
-<!--            });-->
-<!--        });-->
-
-<!--        function c() {-->
-<!--            if (document.getElementById('passwordCheck').value != '') {-->
-<!--                if (document.getElementById('password').value == document.getElementById('passwordCheck').value) {-->
-<!--                    document.getElementById('cc').innerHTML = '비밀번호가 일치합니다.'-->
-<!--                    document.getElementById('cc').style.color = 'blue';-->
-<!--                    return true;-->
-<!--                } else {-->
-<!--                    document.getElementById('cc').innerHTML = '비밀번호가 일치하지 않습니다.';-->
-<!--                    document.getElementById('cc').style.color = 'red';-->
-<!--                    return false;-->
-<!--                }-->
-<!--            }-->
-<!--        }-->
-
-<!--    </script>-->
 </head>
 
 <body>
+<!-- start preloader -->
+<div class="preloader">
+    <div class="sk-spinner sk-spinner-rotating-plane"></div>
+</div>
+<!-- end preloader -->
 
 <!-- start contact -->
 <section id="contact">
