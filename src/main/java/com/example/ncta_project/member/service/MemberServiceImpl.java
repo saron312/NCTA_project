@@ -16,6 +16,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public boolean duplicateMemberIdCheck(String memberId) {
         return memberRepository.existsById(memberId);
+
     }
 
     @Override
