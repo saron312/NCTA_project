@@ -1,57 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="utf-8">
-    <title>NTCA</title>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-
-    <!-- animate css -->
-    <link rel="stylesheet" href="css/animate.min.css">
-    <!-- bootstrap css -->
-    <!--    <link rel="stylesheet" href="css/bootstrap2.min.css">-->
-    <link rel="stylesheet" href="css/bootstrap.min.css">
-    <!-- font-awesome -->
-    <link rel="stylesheet" href="css/font-awesome.min.css">
-    <!-- google font -->
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,800' rel='stylesheet'
-          type='text/css'>
-
-    <!-- custom css -->
-    <link rel="stylesheet" href="css/templatemo-style.css">
-    <link rel="shortcut icon" sizes="16x16" th:href="@{picture/favicon.ico}">
-
-
-    <!--스크립트-->
+<html lang="en">
+<head th:replace="fragments/base :: common_head(~{::title},~{::script})">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
     </script>
-    <script>
-        $(document).ready(function (){
-            $("#loginBtn").click(function (){
-                if($("#memberId").val() === null || $("#memberId").val() === ""){
-                    $("#idError").text("아이디를 입력해주세요.");
-                    $("#memberId").focus();
-                }else if($("#password").val() === null || $("#password").val() === ""){
-                    $("#pwError").text("비밀번호를 입력해주세요.");
-                    $("#password").focus();
-                }else{
-                    $("#loginBtn").attr('type',"submit");
-                }
-            });
+    <script src="js/login.js"></script>
 
-            $("#cancelBtn").click(function (){
-                window.location="/"
-            })
-        });
-    </script>
 </head>
+
 <body>
-<!-- start preloader -->
-<div class="preloader">
-    <div class="sk-spinner sk-spinner-rotating-plane"></div>
-</div>
-<!-- end preloader -->
+<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>
+
 <!-- start contact -->
 <section id="contact">
     <div class="overlay">
@@ -64,12 +24,14 @@
                     <div class="contact-form">
                         <form action="/login" method="post">
                             <div class="col-md-12">
-                                <input type="text" id="memberId" name="memberId" class="form-control mb-2 mt-4" placeholder="아이디">
+                                <input type="text" id="memberId" name="memberId" class="form-control mb-2 mt-4"
+                                       placeholder="아이디">
                                 <p id="idError" class="error text-left mb-0 ps-3"></p>
                             </div>
                             <div class="col-md-12">
-                                <input type="password" id="password" name="password" class="form-control mb-2 mt-4" placeholder="비밀번호">
-                                <p id="pwError"class="error text-left mb-0 ps-3"></p>
+                                <input type="password" id="password" name="password" class="form-control mb-2 mt-4"
+                                       placeholder="비밀번호">
+                                <p id="pwError" class="error text-left mb-0 ps-3"></p>
                             </div>
                             <div class="col-md-6 pe-2 mt-4">
                                 <input type="button" id="cancelBtn" class="form-control text-uppercase" value="cancel">
@@ -86,27 +48,6 @@
 </section>
 <!-- end contact -->
 
-<!-- start footer -->
-<footer>
-    <div class="container">
-        <a href="/"><img class="mb-2" style="max-width:5%;" src="picture/titleLogo.png"></a>
-        <div class="row">
-            <p>(주)엔시티에이프로젝트</p>
-            <p class="mb-0">고객센터 : 0000-0000 ( AM 09:00 ~ PM 19:00 ) | FAX : 000-000-0000 | Email :
-                help@ncta_project.com</p>
-            <p class="mb-0">주소 : 서울특별시 강남구 테헤란로7길 7 (역삼동) | 우편번호 : 06134</p>
-            <p class="mb-0">대표 : 테스트 | 사업자등록번호 : 000-00-00000</p>
-            <p class="mb-0">통신판매업 신고번호 제 0000-서울강남-0000 호</p>
-            <p>Copyright © NCTA_Project</p>
-        </div>
-    </div>
-</footer>
-<!-- end footer -->
-
-<script src="js/jquery.js"></script>
-<!--<script src="js/bootstrap.min.js"></script>-->
-<script src="js/wow.min.js"></script>
-<!--<script src="js/jquery.singlePageNav.min.js"></script>-->
-<script src="js/custom.js"></script>
+<th:block th:replace="fragments/headerAndFooter :: footer"></th:block>
 </body>
 </html>

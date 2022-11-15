@@ -32,7 +32,7 @@ public class Board {
     private String content;
 
     @Column(nullable = false)
-    private String certificate;
+    private String subject;
 
     @OneToMany(mappedBy = "board", cascade = CascadeType.REMOVE)
     // 질문 하나에 여러개 답변이 작성될 수 있는데 질문을 삭제하면 그에 달린 답변들도 모두 함께 삭제하기 위해 Remove 사용

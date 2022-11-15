@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/base :: common_head(~{::title},~{::script})">
+    <script></script>
+</head>
+
+<body>
+<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>
+<th:block th:replace="fragments/headerAndFooter :: navigation"></th:block>
+
+<!-- start feature1 -->
+<section id="community">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s">
+                <h2 class="text-uppercase">Community</h2>
+                <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
+                <div class="pull-left">
+                    <p class="pt-2 mb-0">새글 <strong>444</strong>/1000</p>
+                </div>
+                <div class="dropdown pull-right">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
+                        말머리<i class="fa fa-chevron-down"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">dropdown item 1</a></li>
+                        <li class="dropdown-item"><a href="#">dropdown item 2</a></li>
+                        <li class="dropdown-item"><a href="#">dropdown item 3</a></li>
+                    </ul>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-md-1">번호</th>
+                        <th>제목</th>
+                        <th class="col-md-2">글쓴이</th>
+                        <th class="col-md-2">작성일</th>
+                        <th class="col-md-1">조회</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                    <tr>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                        <td>test</td>
+                    </tr>
+                    <tr>
+                        <td class="py-5" colspan="5"><strong>작성된 글이 없습니다</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <ul class="pagination">
+                        <!-- li태그의 클래스에 disabled를 넣으면 마우스를 위에 올렸을 때 클릭 금지 마크가 나오고 클릭도 되지 않는다.-->
+                        <!-- disabled의 의미는 앞의 페이지가 존재하지 않다는 뜻이다. -->
+                        <li class="disabled">
+                            <a href="#">
+                                <span>«</span>
+                            </a>
+                        </li>
+                        <!-- li태그의 클래스에 active를 넣으면 색이 반전되고 클릭도 되지 않는다. -->
+                        <!-- active의 의미는 현재 페이지의 의미이다. -->
+                        <li class="active"><a href="#">1</a></li>
+                        <li><a href="#">2</a></li>
+                        <li><a href="#">3</a></li>
+                        <li><a href="#">4</a></li>
+                        <li><a href="#">5</a></li>
+                        <li>
+                            <a href="#">
+                                <span>»</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua.</p>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end feature1 -->
+
+<!--<div class="wrap">-->
+<!--    <h1> 게시판 목록 </h1>-->
+<!--    <form autocomplete="off" action="boardList" method="post">-->
+<!--        <select class="select" name="selectKeyword" id="selectKeyword">-->
+<!--            <option value="certificate">자격증</option>-->
+<!--            <option value="title">제목</option>-->
+<!--        </select>-->
+<!--        <input class="search" type="search" name = "searchKeyword" id="searchKeyword" placeholder="Search"></input>-->
+<!--        <button class="searchBtn" id="searchBtn" type="submit" >Search</button>-->
+<!--    </form>-->
+<!--    <br />-->
+<!--    <table class="table table-hover" border="1" style="padding: 5%;">-->
+<!--        <thead>-->
+<!--        <tr align="center">-->
+<!--            <th style="width:6%">번호 </th>-->
+<!--            <th style="width:12%">자격증 </th>-->
+<!--            <th style="width:35%">제목 </th>-->
+<!--            <th style="width:15%">작성자</th>-->
+<!--            <th style="width:18%">작성시간</th>-->
+<!--            <th style="width:7%">조회수</th>-->
+<!--            <th style="width:7%">삭제</th>-->
+<!--        </tr>-->
+<!--        </thead>-->
+<!--        <tbody>-->
+<!--        <tr th:each="board:${boardList}">-->
+<!--            <td th:text="${board.bid}"></td>-->
+<!--            <td th:text="${board.certificate}"></td>-->
+<!--            <td class="boardTitle">-->
+<!--                &lt;!&ndash;            <a th:text="${board.title}"  onclick="location='commentBoard'"></a>&ndash;&gt;-->
+<!--                &lt;!&ndash;        </td>&ndash;&gt;-->
+<!--                <a th:href="@{|/commentBoard/${board.bid}|}"-->
+<!--                   th:text="${board.title}"></a>-->
+<!--                <span class="text-danger small ms-2" th:if="${#lists.size(board.commentList) > 0}"-->
+<!--                      th:text="${#lists.size(board.commentList)}"></span>-->
+<!--            </td>-->
+<!--            <td th:text="${board.id}"></td>-->
+<!--            <td th:text="${#temporals.format(board.createDate,-->
+<!--				'yyyy-MM-dd HH:mm')}"></td>-->
+<!--            <td th:text="${board.viewCount}"></td>-->
+<!--            <td ><a th:if="${board.id == memberID}" th:href="@{/deleteBoard(bid=${board.bid})}">삭제</a></td>-->
+<!--        </tr>-->
+<!--        </tbody>-->
+<!--    </table>-->
+<!--    <div id="listWrap" th:if="${checkedSearch == 'false'}">-->
+<!--        <p><a th:href="@{/boardInput}" class="btn btn-primary btn-lg">글 작성</a></p>-->
+<!--        <a class="moveBefore" id="before" th:if="${nowPage != 0}" th:href="@{/boardList(page=${previous})}" th:text="이전"></a>-->
+<!--        <th:block class="block1" th:each="page:${#numbers.sequence(startPage, endPage)}">-->
+<!--            <a class="block1" id="pageList" th:if="${page -1 != nowPage}" th:href="@{/boardList(page=${page -1})}" th:text="${page}"></a>-->
+<!--            <a class="block1" th:if="${page -1 == nowPage}" th:text="${page}" style="color:red"></a>-->
+<!--        </th:block>-->
+<!--        <a class="moveAfter" id="after" th:if="${nowPage+1 != endPage}" th:href="@{/boardList(page=${next})}" th:text="다음"></a>-->
+<!--    </div>-->
+<!--    <div id="searchlistWrap" th:if="${checkedSearch == 'true'}">-->
+<!--        <p><a th:href="@{/boardInput}" class="btn btn-primary btn-lg">글 작성</a></p>-->
+<!--        <a class="moveBefore" th:if="${nowPage != 0}" th:href="@{/searchBoardList(page=${previous}, selectKeyword=${selectKeyword}, searchKeyword=${searchKeyword})}" th:text="이전"></a>-->
+<!--        <th:block class="block1" th:each="page:${#numbers.sequence(startPage, endPage)}">-->
+<!--            <a class="block1"  th:if="${page -1 != nowPage}" th:href="@{/searchBoardList(page=${page -1}, selectKeyword=${selectKeyword}, searchKeyword=${searchKeyword})}" th:text="${page}"></a>-->
+<!--            <a class="block1" th:if="${page -1 == nowPage}" th:text="${page}" style="color:red"></a>-->
+<!--        </th:block>-->
+<!--        <a class="moveAfter" th:if="${nowPage+1 != endPage}" th:href="@{/searchBoardList(page=${next},selectKeyword=${selectKeyword}, searchKeyword=${searchKeyword})}" th:text="다음"></a>-->
+<!--    </div>-->
+<!--</div>-->
+
+<th:block th:replace="fragments/headerAndFooter :: footer"></th:block>
+
+</body>
+</html>

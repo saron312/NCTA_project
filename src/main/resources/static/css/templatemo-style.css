@@ -276,33 +276,46 @@ img {
 
 /* end feature */
 
-/* start feature1 */
-#feature1 {
-    padding-top: 60px;
+/* start community */
+#community {
+    padding-top: 130px;
     padding-bottom: 60px;
 }
 
-#feature1 p {
+#community p {
     padding-top: 10px;
 }
 
-#feature1 span {
+#community span {
     float: left;
 }
 
-#feature1 .fa {
-    background: #304b98;
-    border-radius: 50%;
-    color: #fff;
+#community .fa {
+    color: #304b98;
     display: inline-block;
-    width: 40px;
-    height: 40px;
-    line-height: 40px;
-    text-align: center;
-    margin-right: 20px;
+    margin-left: 10px;
+}
+#community .btn-link {
+    font-weight: 400;
+    color: #304b98;
+    border-radius: 4px;
 }
 
-/* end feature1 */
+#community .btn-link:focus, #community .btn-link:hover {
+    text-decoration: none;
+    background-color: transparent;
+    border-color: #ddd;
+}
+
+#community .table thead{
+    border-top: 2px solid #ddd;
+}
+
+#community .table tbody{
+    border-bottom: 1px solid #ddd;
+}
+
+/* end community */
 
 /* start pricing */
 #pricing {
@@ -479,7 +492,7 @@ footer {
         margin-top: 30px;
     }
 
-    #feature1 img {
+    #community img {
         margin-bottom: 30px;
     }
 }

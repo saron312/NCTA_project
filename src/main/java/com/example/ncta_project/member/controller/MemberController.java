@@ -68,4 +68,11 @@ public class MemberController {
         model.addAttribute("memberDTO", memberService.memberInfo(memberId));
         return "memberInfo";
     }
+
+    @GetMapping("/withdrawal")
+    public String withdrawal(@ModelAttribute("memberId") String memberId,SessionStatus status){
+        memberService.deleteMember(memberId);
+        status.setComplete();
+        return "redirect:/";
+    }
 }

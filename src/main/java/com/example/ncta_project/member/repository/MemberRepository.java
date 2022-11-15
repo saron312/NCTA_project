@@ -10,4 +10,8 @@ public interface MemberRepository extends JpaRepository<Member,String> {
 
     @Query("select m.memberId from Member m where m.memberId=:memberId and m.password=:password")
     Optional<String> loginId(String memberId, String password);
+
+//    @Query("select m.password from Member m where m.memberId=:memberId")
+//    boolean findPw(String memberId);
+    boolean existsMemberByMemberIdAndPassword(String memberId, String password);
 }
