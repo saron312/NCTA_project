@@ -1,14 +1,8 @@
 package com.example.ncta_project.board.controller;
 
-import com.example.ncta_project.board.Board;
 import com.example.ncta_project.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @SessionAttributes("memberId")
@@ -119,4 +113,7 @@ public class BoardController {
 //        model.addAttribute("sessionMemberId", sessionMemberId);
 //        return String.format("redirect:/commentBoard/%s", bId);
 //    }
+
+    @GetMapping("/communityWrite")
+    public String writeForm(){return "communityWrite";}
 }

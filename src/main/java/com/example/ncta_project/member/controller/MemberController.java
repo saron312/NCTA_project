@@ -27,7 +27,9 @@ public class MemberController {
 
     //로그인 및 로그아웃
     @GetMapping("/login")
-    public String loginPage() {return "login";}
+    public String loginPage() {
+        return "login";
+    }
 
     @PostMapping("/login")
     public String login(@Valid LoginDTO loginDTO, BindingResult bindingResult, Model model) {
@@ -52,7 +54,9 @@ public class MemberController {
 
     //회원가입
     @GetMapping("/join")
-    public String joinPage() {return "join";}
+    public String joinPage() {
+        return "join";
+    }
 
     @PostMapping("/join")
     public String joinSuccess(@Valid JoinDTO joinDTO, BindingResult bindingResult) {
@@ -70,9 +74,11 @@ public class MemberController {
     }
 
     @GetMapping("/withdrawal")
-    public String withdrawal(@ModelAttribute("memberId") String memberId,SessionStatus status){
+    public String withdrawal(@ModelAttribute("memberId") String memberId, SessionStatus status) {
         memberService.deleteMember(memberId);
         status.setComplete();
         return "redirect:/";
     }
+
+
 }

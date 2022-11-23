@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/base :: common_head(~{::title},~{::script})">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+    </script>
+    <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script th:inline="javaScript">
+        let memberId = [[${memberId}]];
+
+        submitPost = function () {
+            oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
+            let content = document.getElementById("editorTxt").value
+
+            if (content == '') {
+                alert("내용을 입력해주세요.")
+                oEditors.getById["editorTxt"].exec("FOCUS")
+                return
+            } else {
+                console.log(content)
+            }
+        }
+        let oEditors = []
+
+        smartEditor = function () {
+            console.log("Naver SmartEditor")
+            nhn.husky.EZCreator.createInIFrame({
+                oAppRef: oEditors,
+                elPlaceHolder: "editorTxt",
+                sSkinURI: "/smarteditor/SmartEditor2Skin.html",
+                fCreator: "createSEditor2"
+            })
+        }
+
+        $(document).ready(function () {
+            smartEditor()
+            $("#rev").text('');
+        })
+
+    </script>
+</head>
+
+<body>
+<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>
+<th:block th:replace="fragments/headerAndFooter :: navigation"></th:block>
+
+<!-- start feature1 -->
+<section id="community">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s">
+                <h2 class="text-uppercase">Community</h2>
+                <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
+                <div class="pull-left">
+                    <p class="pt-2 mb-0">새글 <strong>444</strong>/1000</p>
+                </div>
+                <div class="dropdown pull-right">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
+                        말머리<i class="fa fa-chevron-down mx-1"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="#">dropdown item 1</a></li>
+                        <li class="dropdown-item"><a href="#">dropdown item 2</a></li>
+                        <li class="dropdown-item"><a href="#">dropdown item 3</a></li>
+                    </ul>
+                </div>
+                <form action="insertStudentInfoForm" method="post">
+                    <div id="smarteditor">
+        <textarea name="editorTxt" id="editorTxt"
+                  rows="20" cols="10"
+                  placeholder="내용을 입력해주세요"
+                  style="width:100%;"></textarea>
+                    </div>
+                    <input type="button" class="btn btn-danger float-end" value="등록"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end feature1 -->
+
+<th:block th:replace="fragments/headerAndFooter :: footer"></th:block>
+
+</body>
+</html>

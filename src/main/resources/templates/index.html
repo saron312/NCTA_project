@@ -7,15 +7,6 @@
     </script>
     <script th:inline="javaScript">
         let memberId = [[${memberId}]];
-        $(document).ready(function (){
-            $("#boardA").click(function (){
-                if(memberId === '0'){
-                    alert("로그인 후 이용 가능합니다.");
-                }else{
-                    window.location="/community"
-                }
-            });
-        });
     </script>
 </head>
 <body>

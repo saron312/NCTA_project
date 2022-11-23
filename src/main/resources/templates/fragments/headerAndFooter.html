@@ -20,7 +20,7 @@
                 <!--            <ul class="nav navbar-nav navbar-right">-->
                 <li><a class="aa" href="#">Greeting</a></li>
                 <li><a class="aa" href="#">information</a></li>
-                <li><a id="boardA" class="aa" href="#">Community</a></li>
+                <li><a class="aa" href="javascript:communityA()">Community</a></li>
                 <li th:if="${memberId} == '0'"><a class="nav-fill" href="/login">Login</a></li>
                 <li th:unless="${memberId} == '0'"><a class="nav-fill" href="/myInfo">MyInfo</a></li>
                 <li th:if="${memberId} == '0'"><a class="nav-fill" href="/join">Join</a></li>

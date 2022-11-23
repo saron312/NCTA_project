@@ -1,13 +1,10 @@
-package com.example.ncta_project.controller;
+package com.example.ncta_project;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
-@SessionAttributes("memberId")
 @Controller
-public class IntroduceController {
-
+public class HomeController {
     @GetMapping("/informIntroduce")
     public String informIntroducePage(){
         return "/informIntroduce";

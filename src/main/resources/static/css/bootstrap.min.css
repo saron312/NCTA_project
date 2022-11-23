@@ -1597,6 +1597,14 @@ a.text-warning:hover {
     color: #66512c
 }
 
+.text-black {
+    color: #000;
+}
+
+.text-white {
+    color: #fff;
+}
+
 .text-danger {
     color: #a94442
 }
@@ -2936,6 +2944,26 @@ output {
     height: 38px;
     padding: 6px 12px;
     font-size: 18px;
+    line-height: 1.42857143;
+    color: #111;
+    font-weight: 500;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    /*-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);*/
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    /*-webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;*/
+    /*-o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;*/
+    /*transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s*/
+}
+
+.form-control2 {
+    display: block;
+    width: 100%;
+    height: 35px;
+    padding: 6px 12px;
+    font-size: 14px;
     line-height: 1.42857143;
     color: #111;
     background-color: #fff;
@@ -7714,4 +7742,95 @@ ps-7 {
     .display-6 {
         font-size: 2.5rem;
     }
+}
+
+.float-start {
+    float: left !important;
+}
+
+.float-end {
+    float: right !important;
+}
+
+.float-none {
+    float: none !important;
+}
+
+.form-control-sm {
+    min-height: calc(1.5em + 0.5rem + 2px);
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+    border-radius: 0.3rem;
+}
+.form-control-sm::-webkit-file-upload-button {
+    padding: 0.25rem 0.5rem;
+    margin: -0.25rem -0.5rem;
+    -webkit-margin-end: 0.5rem;
+    margin-inline-end: 0.5rem;
+}
+.form-control-sm::file-selector-button {
+    padding: 0.25rem 0.5rem;
+    margin: -0.25rem -0.5rem;
+    -webkit-margin-end: 0.5rem;
+    margin-inline-end: 0.5rem;
+}
+
+.form-control-lg {
+    min-height: calc(1.5em + 1rem + 2px);
+    padding: 0.5rem 1rem;
+    font-size: 1.25rem;
+    border-radius: 0.6rem;
+}
+.form-control-lg::-webkit-file-upload-button {
+    padding: 0.5rem 1rem;
+    margin: -0.5rem -1rem;
+    -webkit-margin-end: 1rem;
+    margin-inline-end: 1rem;
+}
+.form-control-lg::file-selector-button {
+    padding: 0.5rem 1rem;
+    margin: -0.5rem -1rem;
+    -webkit-margin-end: 1rem;
+    margin-inline-end: 1rem;
+}
+
+
+.d-inline {
+    display: inline !important;
+}
+
+.d-inline-block {
+    display: inline-block !important;
+}
+
+.d-block {
+    display: block !important;
+}
+
+.d-grid {
+    display: grid !important;
+}
+
+.d-table {
+    display: table !important;
+}
+
+.d-table-row {
+    display: table-row !important;
+}
+
+.d-table-cell {
+    display: table-cell !important;
+}
+
+.d-flex {
+    display: flex !important;
+}
+
+.d-inline-flex {
+    display: inline-flex !important;
+}
+
+.d-none {
+    display: none !important;
 }
