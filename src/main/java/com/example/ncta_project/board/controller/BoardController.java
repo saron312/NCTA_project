@@ -3,17 +3,19 @@ package com.example.ncta_project.board.controller;
 import com.example.ncta_project.board.service.BoardService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-@SessionAttributes("memberId")
 @RequiredArgsConstructor
 @Controller
+@RequestMapping("/community")
 public class BoardController {
 
     private final BoardService boardService;
 
-    @GetMapping("/community")
-    public String boardPage(){
+    @GetMapping
+    public String boardPage(Model model) {
+        model.addAttribute("todayPosts",boardService.countTodayPosts());
+        model.addAttribute("board",boardService.getBoardList(0));
 //
 //        Page<Board> boardList= null;
 //
@@ -41,7 +43,14 @@ public class BoardController {
         return "community";
     }
 
-//    @PostMapping("/boardList")
+    @PostMapping
+    public String community(int pageNum,Model model){
+        model.addAttribute("countTodayPosts",boardService.countTodayPosts());
+        model.addAttribute("board", boardService.getBoardList(pageNum-1));
+        return "community";
+    }
+
+    //    @PostMapping("/boardList")
 //    public String searchBoardList(@RequestParam String searchKeyword, @RequestParam String selectKeyword, @PageableDefault(page=0, size = 5, sort = "bId", direction = Sort.Direction.DESC) Pageable pageable
 //            , Model model, @ModelAttribute("memberId") String memberId) {
 //
@@ -71,7 +80,6 @@ public class BoardController {
 //
 //        return "/boardList";
 //    }
-
 //    @GetMapping("/deleteBoard")
 //    public String deleteBoardList(@RequestParam Long bId){
 //        boardService.deleteBoard(bId);
@@ -114,6 +122,16 @@ public class BoardController {
 //        return String.format("redirect:/commentBoard/%s", bId);
 //    }
 
-    @GetMapping("/communityWrite")
-    public String writeForm(){return "communityWrite";}
+    @GetMapping("/community/write")
+    public String writeForm() {
+        return "communityWrite";
+    }
+
+    @GetMapping("/{bId}")
+    public String posts(@PathVariable("bId") Long bId,Model model){
+        model.addAttribute("posts",boardService.loadPosts(bId));
+        return "communityPosts";
+    }
+
+
 }

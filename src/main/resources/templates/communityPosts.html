@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head th:replace="fragments/base :: common_head(~{::title},~{::script})">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+    </script>
+    <script src="js/bootstrap.min.js"></script>
+    <script th:inline="javaScript">
+        $(function () {
+            $("#writeBtn").click(function () {
+                window.location = "/community/write"
+            });
+        });
+
+    </script>
+</head>
+<body>
+<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>
+<th:block th:replace="fragments/headerAndFooter :: navigation"></th:block>
+
+<!-- start feature1 -->
+<section id="community">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s" sec:authorize="isAnonymous()">
+                <h2 class="text-uppercase">Community</h2>
+                <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
+                <div class="border-lightgrey-1 p-5">
+                    <h4>커뮤니티 게시판 권한 안내</h4>
+                    <hr class="mt-1"/>
+                    <div>
+                        <p class="pt-0 mb-0">회원님은 아직 로그인을 하지 않으셨어요. 먼저 로그인을 하시고 이용해주세요.</p>
+                        <p class="pt-0 mb-0">NCTA 계정이 없다면, 회원가입을 해주세요.</p>
+                    </div>
+                </div>
+                <div class="text-center mt-3">
+                    <button type="button" onclick="location.href='/community'" class="btn btn-info">되돌아가기</button>
+                    <button type="button" onclick="location.href='/login'" class="btn btn-primary">로그인</button>
+                    <button type="button" onclick="location.href='/join'" class="btn btn-danger">회원가입</button>
+                </div>
+            </div>
+
+            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s" sec:authorize="isAuthenticated()">
+                <h2 class="text-uppercase">Community</h2>
+                <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
+                <div class="border-lightgrey-1 p-5">
+                    <h4><span class="me-2 text-grey" th:text="${posts.subject}"/>[[${posts.title}]]</h4>
+                    <strong th:text="${posts.writer}"/>
+                    <span class="float-none" th:text="'조회 '+${posts.viewCount}"/>
+                    <span class="float-none" th:text="${#temporals.format(posts.modifiedAt,'yyyy-MM-dd HH:mm')}"/>
+                    <span class="float-none">댓글 0</span>
+                    <hr class="mt-1"/>
+                    <div th:utext="${posts.content}">
+                    </div>
+                </div>
+                <div class="bg-lightgrey p-5">
+                    <div class=" bg-white p-4 pt-2">
+                        <textarea class="w-100 form-control px-1"
+                                  placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
+                                  maxlength="600"></textarea>
+                        <div class="text-right mt-2">
+                            <button class="btn btn-link2 float-start">
+                            <i class="fa fa-file-image-o fa-xl text-grey mt-3"></i>
+                            </button>
+                            <span class="float-none">0</span><span class="float-none text-grey">/600</span>
+                            <button class="btn btn-link2 mx-3">
+                            <i class="fa fa-unlock-alt fa-xl text-grey m-0"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger text-right">등록</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="text-center mt-3">
+                    <button type="button" id="cancelBtn" class="btn btn-primary">글목록</button>
+                    <button type="button" class="btn btn-primary">삭제</button>
+                    <button type="button" class="btn btn-danger">수정</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end feature1 -->
+
+<th:block th:replace="fragments/headerAndFooter :: footer"></th:block>
+
+</body>
+</html>

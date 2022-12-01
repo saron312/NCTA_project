@@ -6,12 +6,25 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
     </script>
-    <script src="js/bootstrap.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
     <script th:inline="javaScript">
-        let memberId = [[${memberId}]];
+        goPage = function (value) {
+            // alert(value);
+            let form = document.createElement('form');
+            let obj;
+            obj = document.createElement('input');
+            obj.setAttribute('type', 'hidden');
+            obj.setAttribute('name', 'pageNum');
+            obj.setAttribute('value', value );
+            form.appendChild(obj);
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/community');
+            document.body.appendChild(form);
+            form.submit();
+        }
         $(function () {
             $("#writeBtn").click(function () {
-                window.location="/communityWrite"
+                window.location="/community/write"
             });
         });
 
@@ -19,18 +32,18 @@
 </head>
 
 <body>
-<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>
+<!--<th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>-->
 <th:block th:replace="fragments/headerAndFooter :: navigation"></th:block>
 
 <!-- start feature1 -->
 <section id="community">
     <div class="container">
         <div class="row">
-            <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s">
+            <div class="col-md-12">
                 <h2 class="text-uppercase">Community</h2>
                 <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
                 <div class="pull-left">
-                    <p class="pt-2 mb-0">새글 <strong>444</strong>/1000</p>
+                    <p class="pt-2 mb-0">새글 <strong th:text="${countTodayPosts}"/>/[[${board.getTotalElements()}]]</p>
                 </div>
                 <div class="dropdown pull-right">
                     <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
@@ -40,7 +53,7 @@
                         <li class="dropdown-item"><a href="#">dropdown item 1</a></li>
                         <li class="dropdown-item"><a href="#">dropdown item 2</a></li>
                         <li class="dropdown-item"><a href="#">dropdown item 3</a></li>
-                    </ul>
+                    </ul >
                 </div>
                 <table class="table table-hover">
                     <thead>
@@ -53,35 +66,19 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>test</td>
-                        <td><a href="#">test</a></td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
+                    <tr th:each="board : ${board}">
+                        <td th:text="${board.bId}"></td>
+                        <td class="text-left">
+                            <a th:href="'/community/'+${board.bId}" class="text-black">
+                                <strong class="text-grey me-2" th:text="${board.subject}"/>
+                                [[${board.title}]]
+                            </a>
+                        </td>
+                        <td th:text="${board.writer}"/>
+                        <td th:text="${board.modifiedAt}"/>
+                        <td th:text="${board.viewCount}"/>
                     </tr>
-                    <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                    </tr>
-                    <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                    </tr>
-                    <tr>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                        <td>test</td>
-                    </tr>
-                    <tr>
+                    <tr th:if="${board.getTotalElements()} == 0">
                         <td class="py-5" colspan="5"><strong>작성된 글이 없습니다</strong></td>
                     </tr>
                     </tbody>
@@ -89,23 +86,22 @@
                 <div class="text-center">
                     <button id="writeBtn" class="btn btn-danger float-start" style="margin:20px 0;">글쓰기</button>
                     <ul class="pagination">
-                        <!-- li태그의 클래스에 disabled를 넣으면 마우스를 위에 올렸을 때 클릭 금지 마크가 나오고 클릭도 되지 않는다.-->
-                        <!-- disabled의 의미는 앞의 페이지가 존재하지 않다는 뜻이다. -->
-                        <li class="disabled">
-                            <a href="#">
-                                <span>«</span>
+                        <li th:class="${board.isFirst()}? disabled:''">
+                            <a th:href="|javascript:goPage(${board.getNumber()})|"
+                            th:style="${board.hasPrevious()}? '':|pointer-events: none;|">
+                                <span><i class="fa fa-chevron-left mx-0"></i></span>
                             </a>
                         </li>
-                        <!-- li태그의 클래스에 active를 넣으면 색이 반전되고 클릭도 되지 않는다. -->
-                        <!-- active의 의미는 현재 페이지의 의미이다. -->
-                        <li class="active"><a href="#">1</a></li>
-                        <li><a href="#">2</a></li>
-                        <li><a href="#">3</a></li>
-                        <li><a href="#">4</a></li>
-                        <li><a href="#">5</a></li>
-                        <li>
-                            <a href="#">
-                                <span>»</span>
+                        <li th:each="page : ${#numbers.sequence(1,board.getTotalPages())}"
+                            th:class="${board.getNumber()+1 == page}? active:''">
+                            <a th:href="|javascript:goPage(${page})|" class="pageNum" th:text="${page}"></a>
+                        </li>
+                        <li th:if="${board.getTotalPages()}>5" class="disabled"><a>...</a></li>
+                        <li th:if="${board.getTotalPages()}>5"><a href="#" th:text="${board.getTotalPages()}"></a></li>
+                        <li th:class="${board.isLast()}? disabled:''">
+                            <a th:href="|javascript:goPage(${board.getNumber()+2})|"
+                               th:style="${board.hasNext()}? '':|pointer-events: none;|">
+                                <span><i class="fa fa-chevron-right mx-0"></i></span>
                             </a>
                         </li>
                     </ul>
@@ -125,9 +121,7 @@
                     <div class="col-lg-1 mx-auto ms-1 px-0">
                         <button class="btn btn-primary"><i class="fa fa-search m-0"></i></button>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

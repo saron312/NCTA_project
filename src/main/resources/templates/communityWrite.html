@@ -6,26 +6,15 @@
             crossorigin="anonymous">
     </script>
     <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+    <script type="text/javascript" src="attach_photo.js" charset="utf-8"></script>
     <script src="js/bootstrap.min.js"></script>
     <script th:inline="javaScript">
         let memberId = [[${memberId}]];
-
-        submitPost = function () {
-            oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
-            let content = document.getElementById("editorTxt").value
-
-            if (content == '') {
-                alert("내용을 입력해주세요.")
-                oEditors.getById["editorTxt"].exec("FOCUS")
-                return
-            } else {
-                console.log(content)
-            }
-        }
         let oEditors = []
-
+        subject = function (value){
+            $("#subject").text($(value).text());
+        }
         smartEditor = function () {
-            console.log("Naver SmartEditor")
             nhn.husky.EZCreator.createInIFrame({
                 oAppRef: oEditors,
                 elPlaceHolder: "editorTxt",
@@ -33,12 +22,59 @@
                 fCreator: "createSEditor2"
             })
         }
+        saveBoard = function() {
+            oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
+            let content = document.getElementById("editorTxt").value;
+            let subject = $("#subject").text();
+            let title = document.getElementById("title").value;
+
+            if(subject == '말머리'){
+                alert("말머리를 선택해주세요.");
+                return;
+            }else if(title == ''){
+                alert("제목을 압력해주세요.");
+                $("#title").focus();
+                return;
+            }else if(content == '') {
+                alert("내용을 입력해주세요.");
+                oEditors.getById["editorTxt"].exec("FOCUS")
+                return;
+            } else {
+
+                let write = {
+                    title: title,
+                    content : content,
+                    subject : subject
+                }
+
+                $.ajax({
+                    url: "/smartEditor/saveBoard",
+                    type:"post",
+                    data: JSON.stringify(write),
+                    dateType : "json",
+                    contentType :"application/json",
+                    success: function(data) {
+                        console.log('success');
+                        // alert('저장하였습니다.');
+                        window.location="/community";
+                    }
+                    , error: function() {
+                        alert('오류가 발생하였습니다.');
+                    }
+                })
+            }
+        }
 
         $(document).ready(function () {
-            smartEditor()
-            $("#rev").text('');
-        })
+            smartEditor();
+            $("#submitBtn").click(function () {
+                saveBoard();
+            })
+            $("#cancelBtn").click(function () {
+                window.location="/community";
+            })
 
+        })
     </script>
 </head>
 
@@ -53,27 +89,31 @@
             <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s">
                 <h2 class="text-uppercase">Community</h2>
                 <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
-                <div class="pull-left">
-                    <p class="pt-2 mb-0">새글 <strong>444</strong>/1000</p>
-                </div>
-                <div class="dropdown pull-right">
-                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
-                        말머리<i class="fa fa-chevron-down mx-1"></i>
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li class="dropdown-item"><a href="#">dropdown item 1</a></li>
-                        <li class="dropdown-item"><a href="#">dropdown item 2</a></li>
-                        <li class="dropdown-item"><a href="#">dropdown item 3</a></li>
-                    </ul>
-                </div>
-                <form action="insertStudentInfoForm" method="post">
-                    <div id="smarteditor">
-        <textarea name="editorTxt" id="editorTxt"
-                  rows="20" cols="10"
-                  placeholder="내용을 입력해주세요"
-                  style="width:100%;"></textarea>
+                <form method="post">
+                    <div class="border-1 p-3">
+                        <div class="dropdown">
+                            <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
+                                <span id="subject">말머리</span><i class="fa fa-chevron-down mx-1"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li class="dropdown-item"><a href="#" onclick="subject(this)">정보처리기사</a></li>
+                                <li class="dropdown-item"><a href="#" onclick="subject(this)">전기기사</a></li>
+                                <li class="dropdown-item"><a href="#" onclick="subject(this)">어쩌구기사</a></li>
+                            </ul>
+                        </div>
+                        <input type="text" id="title" class="form-control3" placeholder="제목을 입력하세요" maxlength="75">
+                        <hr class="mt-0 mb-3"/>
                     </div>
-                    <input type="button" class="btn btn-danger float-end" value="등록"/>
+                    <div id="smarteditor">
+                        <textarea name="editorTxt" id="editorTxt"
+                                  rows="20" cols="10"
+                                  placeholder="내용을 입력해주세요"
+                                  style="width:100%;"></textarea>
+                    </div>
+                    <div class="text-center mt-3">
+                    <input type="button" id="cancelBtn" class="btn btn-primary" value="취소"/>
+                    <input type="button" id="submitBtn" class="btn btn-danger" value="등록"/>
+                    </div>
                 </form>
             </div>
         </div>

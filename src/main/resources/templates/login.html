@@ -18,9 +18,9 @@
         <div class="container">
             <div class="row dis-flex">
                 <div class="col-md-6 mx-auto text-center">
-                    <a href="/"><img class="mb-0 w-25" src="picture/titleLogo.png"></a>
+                    <a href="/"><img class="mb-0 w-25" src="images/titleLogo.png"></a>
                     <h2 class="text-uppercase mb-0 display-3">Login</h2>
-                    <h5 class="error" th:text="${error}"/>
+                    <h5 class="error" th:text="${param.error}? '아이디 또는 비밀번호가 일치하지 않습니다':''"/>
                     <div class="contact-form">
                         <form action="/login" method="post">
                             <div class="col-md-12">

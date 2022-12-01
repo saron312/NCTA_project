@@ -4,7 +4,7 @@ $(document).ready(function () {
     const regExp = /^[a-z0-9_-]{5,15}$/;
 
     $("#withdrawalBtn").click(function () {
-        $("#staticBackdrop").modal();
+        $("#staticBackdrop").modal('show');
     });
 
     $("#withdrawalPw").blur(function () {
@@ -31,7 +31,7 @@ $(document).ready(function () {
                 },
                 error: function () {
                     alert("통신 오류");
-                    window.location = "/myInfo"
+                    window.location = "/member/myInfo"
                 }
             });
         }
@@ -44,7 +44,7 @@ $(document).ready(function () {
         }
         if (passwordResult) {
             alert("탈퇴가 완료되었습니다.");
-            window.location="/withdrawal"
+            window.location="/member/withdrawal"
         }
     });
 });

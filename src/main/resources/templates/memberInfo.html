@@ -5,12 +5,12 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/memberInfo.js"></script>
-    <script th:inline="javaScript">
-        let memberId = [[${memberId}]];
-    </script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" ></script>
+    <script th:src="@{/js/memberInfo.js}"></script>
+
+
 </head>
 <body>
 <th:block th:replace="fragments/headerAndFooter :: preloader"></th:block>

@@ -6,29 +6,23 @@ import com.example.ncta_project.member.Member;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Entity
-@Table(name="board")
 @ToString
 @Getter
-@Setter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Board {
+public class Board extends BaseTime{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long bId;
 
     @Column(nullable = false)
-    private String id;
-
-    @Column(nullable = false)
     private String title;
 
-    @Column(nullable = false)
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(nullable = false)
@@ -40,8 +34,6 @@ public class Board {
 
     @Column(columnDefinition = "integer default 0", nullable = false)
     private int viewCount;
-
-    private LocalDateTime createDate;
 
     @ManyToOne
     private Member member;

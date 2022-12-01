@@ -1,27 +1,27 @@
 <!DOCTYPE html>
-<html>
+<html >
 <!--<head th:fragment="common_head(title,links,scripts)">-->
   <head th:fragment="common_head(title,scripts)">
   <!--공통-->
   <meta charset="utf-8">
   <title>NTCA</title>
   <!-- animate css -->
-  <link rel="stylesheet" href="css/animate.min.css">
+  <link rel="stylesheet" th:href="@{/css/animate.min.css}">
   <!-- bootstrap css -->
-  <link rel="stylesheet" href="css/bootstrap.min.css">
+  <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
   <!-- font-awesome -->
-  <link rel="stylesheet" href="css/font-awesome.min.css">
+  <link rel="stylesheet" th:href="@{/css/font-awesome.min.css}">
   <!-- google font -->
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700,800' rel='stylesheet'
         type='text/css'>
   <!-- custom css -->
-  <link rel="stylesheet" href="css/templatemo-style.css">
-  <link rel="shortcut icon" sizes="16x16" th:href="@{picture/favicon.ico}">
-  <script src="js/jquery.js"></script>
+  <link rel="stylesheet" th:href="@{/css/templatemo-style.css}">
+  <link rel="shortcut icon" sizes="16x16" th:href="@{/images/favicon.ico}">
+  <script th:src="@{/js/jquery.js}"></script>
 <!--  <script src="js/bootstrap.min.js"></script>-->
-  <script src="js/wow.min.js"></script>
+  <script th:src="@{/js/wow.min.js}"></script>
 <!--  <script src="js/jquery.singlePageNav.min.js"></script>-->
-  <script src="js/custom.js"></script>
+  <script th:src="@{/js/custom.js}"></script>
   <!-- 추가 -->
 <!--  <th:block th:replace="${links}" />-->
   <th:block th:replace="${scripts}" />

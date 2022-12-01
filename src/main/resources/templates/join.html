@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/base :: common_head(~{::title},~{::script})">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
@@ -17,7 +17,7 @@
         <div class="container">
             <div class="row dis-flex">
                 <div class="col-md-6 mx-auto text-center">
-                    <a href="/"><img class="mb-0 w-25" src="picture/titleLogo.png"></a>
+                    <a href="/"><img class="mb-0 w-25" src="images/titleLogo.png"></a>
                     <h2 class="text-uppercase mb-0 display-3">Join</h2>
                     <div class="contact-form">
                         <form action="/join" method="post">

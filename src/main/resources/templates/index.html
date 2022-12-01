@@ -1,12 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:replace="fragments/base :: common_head(~{::title},~{::script})">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
-    </script>
-    <script th:inline="javaScript">
-        let memberId = [[${memberId}]];
     </script>
 </head>
 <body>

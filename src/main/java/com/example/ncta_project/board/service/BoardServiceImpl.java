@@ -1,33 +1,58 @@
 package com.example.ncta_project.board.service;
 
 import com.example.ncta_project.board.Board;
+import com.example.ncta_project.board.dto.BoardDTO;
+import com.example.ncta_project.board.dto.InsertDTO;
+import com.example.ncta_project.board.dto.PostsDTO;
 import com.example.ncta_project.board.repository.BoardRepository;
-import com.example.ncta_project.comment.repository.CommentRepository;
-import com.example.ncta_project.exception.DataNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.util.Optional;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 
 @Service
 @RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
-//    private BoardRepository boardRepository;
+    private final BoardRepository boardRepository;
+
+    //    private CommentRepository commentRepository;
 //
-//    private CommentRepository commentRepository;
-//
-//    @Override
-//    public Page<Board> getBoardList(Pageable pageable) {
-//        Page<Board> boards = boardRepository.findAll(pageable);
-//        return boards;
-//    }
-//
+    @Override
+    public Page<BoardDTO> getBoardList(int pageNum) {
+        Pageable pageable = PageRequest.of(pageNum, 10, Sort.by("bId").descending());
+        return boardRepository.findAll(pageable).map(board -> BoardDTO.fromEntity(board,dateFormat(board)));
+    }
+    @Override
+    public Long countTodayPosts() {
+        return boardRepository.countTodayPosts();
+    }
+
+    public String dateFormat(Board board){
+        if (board.getModifiedAt().toLocalDate().isBefore(LocalDate.now())) {
+            return board.getModifiedAt().format(DateTimeFormatter.ofPattern("yy.MM.dd"));
+        } else {
+            return board.getModifiedAt().format(DateTimeFormatter.ofPattern("HH:mm"));
+        }
+    }
+
+    @Override
+    public void insertBoard(String memberId, InsertDTO insertDTO) {
+        boardRepository.save(insertDTO.toEntity(memberId));
+    }
+
+    @Override
+    public PostsDTO loadPosts(Long bId) {
+        return PostsDTO.fromEntity(boardRepository.findById(bId)
+                .orElseThrow(()-> new NullPointerException(bId +"-> 데이터베이스에서 찾을 수 없습니다.")));
+    }
+
 //    @Override
 //    public void deleteBoard(Long bId) {
 //        boardRepository.deleteById(bId);
@@ -78,8 +103,6 @@ public class BoardServiceImpl implements BoardService {
 ////        c1.setBoard(board);
 ////        this.commentRepository.save(c1);
 //    }
-//
-//
 //
 //    @Transactional
 //    @Override

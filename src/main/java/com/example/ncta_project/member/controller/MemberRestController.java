@@ -7,9 +7,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import java.security.Principal;
+
 @RestController
 @RequiredArgsConstructor
-@SessionAttributes("memberId")
 public class MemberRestController {
 
     private final MemberService memberService;
@@ -18,7 +19,7 @@ public class MemberRestController {
     boolean duplicateMemberIdCheck(String memberId){return memberService.duplicateMemberIdCheck(memberId);}
 
     @PostMapping("/pwCheck")
-    boolean passwordCheck(@ModelAttribute("memberId") String memberId, String password){
-        return memberService.passwordCheck(memberId, password);
+    boolean passwordCheck(Principal principal, String password){
+        return memberService.passwordCheck(principal.getName(), password);
     }
 }
