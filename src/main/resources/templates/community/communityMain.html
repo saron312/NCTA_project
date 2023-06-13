@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="fragments/base :: common_head(~{::title},~{::script})">
+<!--    <script src="js/jquery.singlePageNav.min.js"></script>-->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous">
+    </script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:inline="javaScript">
+        let gCurrentPage;
+
+        $(function (){
+
+        });
+
+        function getCommunityList(){
+            let param = { currentPage : gCurrentPage, subject: subject, sort: ,searchField:searchField };
+            sendAjax("/community/ajaxList", param , function () {
+                    if (check === true) {
+                        $("#idError").text('중복 아이디 입니다.');
+                        return memberIdResult = false;
+                    } else {
+                        $('#idError').text('아이디 입력 성공!');
+                        $('#idError').css('color', '#304b98');
+                        return memberIdResult = true;
+                    }
+                },
+                function (xhr) {
+                    console.log(xhr.responseText);
+                });
+        }
+
+        goPage = function (value) {
+            // alert(value);
+            let form = document.createElement('form');
+            let obj;
+            obj = document.createElement('input');
+            obj.setAttribute('type', 'hidden');
+            obj.setAttribute('name', 'pageNum');
+            obj.setAttribute('value', value );
+            form.appendChild(obj);
+            form.setAttribute('method', 'post');
+            form.setAttribute('action', '/community');
+            document.body.appendChild(form);
+            form.submit();
+        }
+        $(function () {
+            $("#writeBtn").click(function () {
+                window.location="/community/write"
+            });
+        });
+
+    </script>
+</head>
+
+<body>
+<th:block th:replace="fragments/headerAndFooter :: navigation"></th:block>
+
+<!-- start feature1 -->
+<section id="community">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="text-uppercase">Community</h2>
+                <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
+                <div class="pull-left">
+                    <p class="pt-2 mb-0">새글 <strong id="todayPosts"/>/<span id="totalPosts"></span></p>
+                </div>
+                <div class="dropdown pull-right">
+                    <button class="btn btn-link dropdown-toggle" type="button" data-toggle="dropdown" id="dropdownBtn">
+                        말머리<span></span><i class="fa fa-chevron-down mx-1"></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li class="dropdown-item"><a href="javascript:">정보처리기사</a></li>
+                        <li class="dropdown-item"><a href="javascript:">전기기사</a></li>
+                        <li class="dropdown-item"><a href="javascript:">30</a></li>
+                    </ul>
+                    <input type="hidden" name="subject">
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                    <tr>
+                        <th class="col-md-1">번호</th>
+                        <th>제목</th>
+                        <th class="col-md-2">글쓴이</th>
+                        <th class="col-md-2">작성일</th>
+                        <th class="col-md-1">조회</th>
+                    </tr>
+                    </thead>
+                    <tbody id="commutniyList">
+<!--                    <tr th:each="board : ${board}">-->
+<!--                        <td th:text="${board.bId}"></td>-->
+<!--                        <td class="text-left">-->
+<!--                            <a th:href="'/community/'+${board.bId}" class="text-black me-2">-->
+<!--                                <strong class="text-grey me-2" th:text="${board.subject}"/>-->
+<!--                                [[${board.title}]]-->
+<!--                            </a>-->
+<!--                            <span class="badge2"-->
+<!--                                  th:if="${board.commentListSize}>0"-->
+<!--                                  th:text="${board.commentListSize}"></span>-->
+<!--                        </td>-->
+<!--                        <td th:text="${board.writer}"/>-->
+<!--                        <td th:text="${board.modifiedAt}"/>-->
+<!--                        <td th:text="${board.viewCount}"/>-->
+<!--                    </tr>-->
+<!--                    <tr th:if="${board.getTotalElements()} == 0">-->
+<!--                        <td class="py-5" colspan="5"><strong>작성된 글이 없습니다</strong></td>-->
+<!--                    </tr>-->
+                    </tbody>
+                </table>
+                <div class="text-center">
+                    <button  sec:authorize="hasRole('MEMBER')" id="writeBtn" class="btn btn-danger float-start" style="margin:20px 0;">글쓰기</button>
+                    <ul class="pagination">
+                        <li th:class="${board.isFirst()}? disabled:''">
+                            <a th:href="|javascript:goPage(${board.getNumber()})|"
+                            th:style="${board.hasPrevious()}? '':|pointer-events: none;|">
+                                <span><i class="fa fa-chevron-left mx-0"></i></span>
+                            </a>
+                        </li>
+                        <li th:each="page : ${#numbers.sequence(1,board.getTotalPages())}"
+                            th:class="${board.getNumber()+1 == page}? active:''">
+                            <a th:href="|javascript:goPage(${page})|" class="pageNum" th:text="${page}"></a>
+                        </li>
+                        <li th:if="${board.getTotalPages()}>5" class="disabled"><a>...</a></li>
+                        <li th:if="${board.getTotalPages()}>5"><a href="#" th:text="${board.getTotalPages()}"></a></li>
+                        <li th:class="${board.isLast()}? disabled:''">
+                            <a th:href="|javascript:goPage(${board.getNumber()+2})|"
+                               th:style="${board.hasNext()}? '':|pointer-events: none;|">
+                                <span><i class="fa fa-chevron-right mx-0"></i></span>
+                            </a>
+                        </li>
+                    </ul>
+                    <button sec:authorize="hasRole('MEMBER')" class="btn btn-primary float-end" style="margin:20px 0;">내글보기</button>
+                </div>
+                <div class="row d-flex mt-3">
+                    <div class="col-lg-2 mx-auto me-1 px-0">
+                        <select class="form-control2">
+                            <option selected>제목+내용</option>
+                            <option>글제목</option>
+                            <option>글작성자</option>
+                        </select>
+                    </div>
+                    <div class="col-lg-3 mx-1 px-0">
+                        <input type="text" class="form-control2">
+                    </div>
+                    <div class="col-lg-1 mx-auto ms-1 px-0">
+                        <button class="btn btn-primary"><i class="fa fa-search m-0"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- end feature1 -->
+
+<th:block th:replace="fragments/headerAndFooter :: footer"></th:block>
+
+</body>
+</html>

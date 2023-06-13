@@ -19,12 +19,7 @@ $(document).ready(function () {
             $("#idError").text("5~15자의 영문 소문자, 숫자와 특수기호(_),(-)만 사용 가능합니다.");
             memberIdResult = false;
         } else {
-            $.ajax({
-                url: '/idCheck',
-                type: 'post',
-                data: { memberId : $('#memberId').val()},
-                dataType: 'json',
-                success: function (check) {
+            sendAjax("/idCheck", { memberId : $('#memberId').val()}, function () {
                     if (check === true) {
                         $("#idError").text('중복 아이디 입니다.');
                         return memberIdResult = false;
@@ -34,11 +29,9 @@ $(document).ready(function () {
                         return memberIdResult = true;
                     }
                 },
-                error: function () {
-                    alert("통신 오류");
-                    window.location="/join"
-                }
-            })
+                function (xhr) {
+                    console.log(xhr.responseText);
+                });
         }
     });
 

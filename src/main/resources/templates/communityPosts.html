@@ -5,14 +5,154 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
     </script>
-    <script src="js/bootstrap.min.js"></script>
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+<!--    <script th:src="@{/ckeditor/ckeditor.js}"></script>-->
+
     <script th:inline="javaScript">
+        let bIdComment = [[${posts.bId}]]
+        let memberId = [[${#authentication.name}]]
+        submitComment = function () {
+            $.ajax({
+                url: "/comment/write",
+                type: "post",
+                data: JSON.stringify(
+                    {
+                        bId: bIdComment,
+                        comment: $("#comment").val()
+                    }
+                ),
+                dateType: "json",
+                contentType: "application/json",
+                success: function (data) {
+                    console.log('success');
+                    getCommentList();
+                    $("#comment").val('');
+                    // showList(data);
+                }
+                , error: function () {
+                    alert('오류가 발생하였습니다.');
+                }
+            })
+        }
+        getCommentList = function () {
+            $.ajax({
+                url: "/comment/list",
+                type: "post",
+                data: {bId: bIdComment},
+                dateType: "json",
+                success: function (data) {
+                    showList(data);
+                }
+                , error: function () {
+                    alert('오류가 발생하였습니다.');
+                }
+            })
+        }
+        showList = function (data) {
+            var str = '';
+            $.each(data, function (idx, val) {
+                str += "<div class='commentDiv px-5 py-4 ";
+                if (memberId == val.writer) {
+                    str += "bg-comment";
+                }
+                str += `'>
+                        <Strong class='text-primary fw-semibold'>${val.writer}</Strong>
+                        <span class='float-none text-grey mx-3'>${val.modifiedAt}</span>`
+                if (memberId == val.writer) {
+                    str += `<div class='dropdown mt-3 float-end'>
+                            <button class='btn btn-link3 dropdown-toggle' type='button' data-toggle='dropdown'>
+                            <i class='fa fa-ellipsis-v m-auto'></i></button>
+                            <ul class='dropdown-menu'>
+                            <li id="commentUpdate" class='dropdown-item'><a href='javascript:'>수정</a></li>
+                            <li id="commentDelete" class='dropdown-item'><a href='javascript:'>삭제</a></li></ul></div>`
+
+                    // str += "<div class='float-end'>";
+                    // str += "<button type='button' class='btn btn-primary'><i class=\"fa fa-ellipsis-v\"></i></button>";
+                    // str += "<button type='button' class='btn btn-primary ms-2'>삭제</button></div>";
+                }
+                str += "<p class='pt-0 m-0'>" + val.comment + "</p>";
+                str += "</div><hr class='m-0'>";
+            });
+            $("#commentList").html(str);
+        }
+        commentForm = function () {
+            let str = '';
+            str += `<div class=" bg-white m-5 p-4 pt-2">
+                        <textarea id="comment2" class="w-100 form-control px-1" maxlength="600"></textarea>
+                        <div class="text-right mt-2">
+                            <span id="commentLength2" class="float-none">0</span>
+                            <span class="float-none text-grey me-2">/600</span>
+                            <button type="button" id="commentCancelBtn" class="btn btn-danger text-right">취소</button>
+                            <button type="button" id="commentBtn" class="btn btn-danger text-right">등록</button>
+                        </div>
+                    </div>`
+            return str;
+        }
+
         $(function () {
+            getCommentList();
             $("#writeBtn").click(function () {
                 window.location = "/community/write"
             });
-        });
+            $("#comment").keyup(function () {
+                $("#commentLength").text($("#comment").val().length);
+            });
+            $("#commentBtn").click(function () {
+                if ($("#comment").val() == '') {
+                    alert("내용을 입력해주세요");
+                    return;
+                } else {
+                    submitComment();
+                }
+            });
+            $("#lockBtn").click(function () {
+                $("#lockIcon").toggleClass("fa-unlock-alt");
+                $("#lockIcon").toggleClass("text-grey");
+                $("#lockIcon").toggleClass("fa-lock");
+                $("#lockIcon").toggleClass("text-danger2");
+            });
 
+            //댓글 삭제 버튼
+            $(document).on("click", "#commentDelete", function () {
+                if (confirm("정말로 삭제하시겠습니까?") == true) {
+                    $.ajax({
+                        url: "/comment/delete",
+                        type: "delete",
+                        dateType: "json",
+                        data: {
+                            commentId: $(this).closest('.memberDiv').find(".sideMenu").attr('id'),
+                        },
+                        success: function (data) {
+                            alert("댓글이 삭제되었습니다.")
+                            // goCommentPage(nowPage)
+                        }
+                        , error: function () {
+                            alert('오류');
+                        }
+                    })
+                } else {
+                    return;
+                }
+
+            });
+            //댓글 수정 버튼
+            $(document).on("click", "#commentUpdate", function () {
+                alert("?")
+                $(this).closest('.commentDiv').append(commentForm())
+                // $("#commentContent2").val($(this).closest('.memberDiv').find(".commentContent").text());
+                $("#commentLength2").text($("#commentContent2").val().length);
+            });
+            //댓글 수정 등록 버튼
+            $(document).on("click", "#updateCommentBtn", function () {
+                if ($("#commentContent2").val() == '') {
+                    alert("내용을 입력해주세요");
+                    return;
+                } else {
+                    submitUpdateComment($(this).closest('.memberDiv').find(".sideMenu").attr('id'),loginId,
+                        $(this).closest('.memberDiv').find(".commentImg").attr("src"));
+                }
+            });
+        });
     </script>
 </head>
 <body>
@@ -44,38 +184,55 @@
             <div class="col-md-12 wow fadeInUp" data-wow-delay="0.6s" sec:authorize="isAuthenticated()">
                 <h2 class="text-uppercase">Community</h2>
                 <h5 class="mt-4 mb-5 text-primary">국가 기술 자격증에 대해 자유롭게 이야기 나누는 공간입니다</h5>
-                <div class="border-lightgrey-1 p-5">
+                <div class="border-lightgrey-1 p-5 pb-8">
                     <h4><span class="me-2 text-grey" th:text="${posts.subject}"/>[[${posts.title}]]</h4>
                     <strong th:text="${posts.writer}"/>
                     <span class="float-none" th:text="'조회 '+${posts.viewCount}"/>
                     <span class="float-none" th:text="${#temporals.format(posts.modifiedAt,'yyyy-MM-dd HH:mm')}"/>
-                    <span class="float-none">댓글 0</span>
+                    <span class="float-none" th:text="'댓글 '+${posts.commentListSize}"></span>
                     <hr class="mt-1"/>
                     <div th:utext="${posts.content}">
                     </div>
                 </div>
-                <div class="bg-lightgrey p-5">
-                    <div class=" bg-white p-4 pt-2">
-                        <textarea class="w-100 form-control px-1"
+                <div class="bg-lightgrey pt-1 pb-5">
+                    <div id="commentList">
+<!--                        <Strong class="text-primary fw-semibold">test000</Strong><span-->
+<!--                            class="float-none text-grey mx-3">11:00</span>-->
+<!--                        <div class="float-end">-->
+<!--                            <button type="button" class="btn btn-primary">수정</button>-->
+<!--                            <button type="button" class="btn btn-primary">삭제</button>-->
+<!--                        </div>-->
+<!--                        <p class="pt-0">댓글 내용 적는 부분 테스트입니다.</p>-->
+<!--                        <hr class="my-4">-->
+                    </div>
+                    <div class=" bg-white m-5 p-4 pt-2">
+                        <textarea id="comment"
+                                  class="w-100 form-control px-1"
                                   placeholder="인터넷은 우리가 함께 만들어가는 소중한 공간입니다. 댓글 작성 시 타인에 대한 배려와 책임을 담아주세요."
                                   maxlength="600"></textarea>
+<!--                        <div id="imgDiv" aria-label="리치 텍스트 편집기, contents" aria-multiline="true" contenteditable="false"-->
+<!--                             aria-readonly="true" spellcheck="false"-->
+<!--                             class="cke_editable cke_editable_themed cke_contents_ltr cke_show_borders"></div>-->
                         <div class="text-right mt-2">
-                            <button class="btn btn-link2 float-start">
-                            <i class="fa fa-file-image-o fa-xl text-grey mt-3"></i>
-                            </button>
-                            <span class="float-none">0</span><span class="float-none text-grey">/600</span>
-                            <button class="btn btn-link2 mx-3">
-                            <i class="fa fa-unlock-alt fa-xl text-grey m-0"></i>
-                            </button>
-                            <button type="button" class="btn btn-danger text-right">등록</button>
+<!--                            <button class="btn btn-link2 float-start" >-->
+<!--                                <i class="fa fa-file-image-o fa-xl text-grey mt-3"></i>-->
+<!--                            </button>-->
+                            <span id="commentLength" class="float-none">0</span><span
+                                class="float-none text-grey me-2">/600</span>
+<!--                            <button id="lockBtn" class="btn btn-link2 mx-3">-->
+<!--                                <i id="lockIcon" class="fa fa-unlock-alt fa-xl text-grey m-0"></i>-->
+<!--                            </button>-->
+                            <button type="button" id="commentBtn" class="btn btn-danger text-right">등록</button>
                         </div>
                     </div>
                 </div>
 
                 <div class="text-center mt-3">
-                    <button type="button" id="cancelBtn" class="btn btn-primary">글목록</button>
-                    <button type="button" class="btn btn-primary">삭제</button>
-                    <button type="button" class="btn btn-danger">수정</button>
+                    <button type="button" onclick="location.href='/community'" class="btn btn-primary">글목록</button>
+                    <button type="button" class="btn btn-info" th:if="${#authentication.name == posts.writer}">수정
+                    </button>
+                    <button type="button" class="btn btn-danger" th:if="${#authentication.name == posts.writer}">삭제
+                    </button>
                 </div>
             </div>
         </div>

@@ -22,7 +22,7 @@ public class HomeController {
 
     @GetMapping("/login")
     public String loginPage(Principal principal) {
-        if(Principal.class.isInstance(principal)) {
+        if(principal != null) {
             return "redirect:/";
         }
         return "login";
@@ -30,7 +30,7 @@ public class HomeController {
 
     @GetMapping("/join")
     public String joinPage(Principal principal) {
-        if(Principal.class.isInstance(principal)) {
+        if(principal != null) {
             return "redirect:/";
         }
         return "join";

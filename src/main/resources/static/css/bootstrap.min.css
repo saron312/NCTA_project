@@ -1619,6 +1619,10 @@ a.text-black:hover {
     color: #a94442
 }
 
+.text-danger2 {
+    color: #d9534f
+}
+
 a.text-danger:hover {
     color: #843534
 }
@@ -1630,6 +1634,10 @@ a.text-danger:hover {
 
 .bg-grey {
     background-color: grey;
+}
+
+.bg-comment {
+    background-color: #eff3f7;
 }
 
 .bg-white {
@@ -3681,6 +3689,18 @@ select[multiple].form-group-lg .form-control, textarea.form-group-lg .form-contr
     background-color: #fff;
 }
 
+.btn-link3 {
+    font-weight: 400;
+    color: grey;
+    border-radius: 0;
+    background:none;
+}
+
+.btn-link3, .btn-link3:active, .btn-link3:focus, .btn-link3:hover {
+    border: none;
+    outline:none !important;
+}
+
 .btn-link2, .btn-link2:active, .btn-link2:focus, .btn-link2:hover {
     border: none;
     outline:none !important;
@@ -3809,7 +3829,7 @@ tbody.collapse.in {
     z-index: 1000;
     display: none;
     float: left;
-    min-width: 160px;
+    /*min-width: 160px;*/
     padding: 5px 0;
     margin: 2px 0 0;
     font-size: 14px;
@@ -5283,6 +5303,22 @@ a.label:focus, a.label:hover {
     white-space: nowrap;
     vertical-align: baseline;
     background-color: #777;
+    border-radius: 10px
+}
+
+.badge2 {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1;
+    color: #d9534f;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border:1px solid #e4e4e4;
+    /*background-color: #777;*/
     border-radius: 10px
 }
 
@@ -7546,6 +7582,18 @@ button.close {
 
 .pb-5 {
     padding-bottom: 3rem !important;
+}
+
+.pb-6 {
+    padding-bottom: 4.5rem !important;
+}
+
+.pb-7 {
+    padding-bottom: 6rem !important;
+}
+
+.pb-8 {
+    padding-bottom: 7.5rem !important;
 }
 
 .ps-0 {

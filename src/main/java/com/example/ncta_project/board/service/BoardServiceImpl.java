@@ -34,6 +34,9 @@ public class BoardServiceImpl implements BoardService {
         return boardRepository.countTodayPosts();
     }
 
+    @Override
+    public void viewCountPlus(Long bId) {boardRepository.viewCountPlus(bId);}
+
     public String dateFormat(Board board){
         if (board.getModifiedAt().toLocalDate().isBefore(LocalDate.now())) {
             return board.getModifiedAt().format(DateTimeFormatter.ofPattern("yy.MM.dd"));

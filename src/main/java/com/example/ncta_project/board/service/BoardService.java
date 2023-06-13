@@ -12,7 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface BoardService {
     Page<BoardDTO> getBoardList(int PageNum);
+
     Long countTodayPosts();
+    void viewCountPlus(Long bId);
 //    Page<Board> searchBoardList(String selectKeyword, String searchKeyword, Pageable pageable);
 //    //    void insertBoard(String id, String title, String content);
 //    void deleteBoard(Long bId);
@@ -21,7 +23,6 @@ public interface BoardService {
 //    void writeComment(Board board, String comment);
 //
 //    void updateViewCount(Long bId);
-
     void insertBoard(String memberId,InsertDTO insertDTO);
 
     PostsDTO loadPosts(Long bId);

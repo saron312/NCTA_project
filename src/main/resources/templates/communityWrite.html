@@ -5,26 +5,16 @@
             integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
             crossorigin="anonymous">
     </script>
-    <script type="text/javascript" src="/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
-    <script type="text/javascript" src="attach_photo.js" charset="utf-8"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script th:inline="javaScript">
-        let memberId = [[${memberId}]];
-        let oEditors = []
+    <script th:src="@{/js/bootstrap.min.js}"></script>
+    <script th:src="@{/ckeditor/ckeditor.js}"></script>
+
+    <script>
         subject = function (value){
             $("#subject").text($(value).text());
         }
-        smartEditor = function () {
-            nhn.husky.EZCreator.createInIFrame({
-                oAppRef: oEditors,
-                elPlaceHolder: "editorTxt",
-                sSkinURI: "/smarteditor/SmartEditor2Skin.html",
-                fCreator: "createSEditor2"
-            })
-        }
+
         saveBoard = function() {
-            oEditors.getById["editorTxt"].exec("UPDATE_CONTENTS_FIELD", [])
-            let content = document.getElementById("editorTxt").value;
+            let content = CKEDITOR.instances.contents.getData();
             let subject = $("#subject").text();
             let title = document.getElementById("title").value;
 
@@ -37,7 +27,7 @@
                 return;
             }else if(content == '') {
                 alert("내용을 입력해주세요.");
-                oEditors.getById["editorTxt"].exec("FOCUS")
+                // oEditors.getById["editorTxt"].exec("FOCUS")
                 return;
             } else {
 
@@ -48,7 +38,7 @@
                 }
 
                 $.ajax({
-                    url: "/smartEditor/saveBoard",
+                    url: "/ckeditor/saveBoard",
                     type:"post",
                     data: JSON.stringify(write),
                     dateType : "json",
@@ -66,7 +56,10 @@
         }
 
         $(document).ready(function () {
-            smartEditor();
+            CKEDITOR.replace('contents',{
+            });
+
+            // smartEditor();
             $("#submitBtn").click(function () {
                 saveBoard();
             })
@@ -105,10 +98,11 @@
                         <hr class="mt-0 mb-3"/>
                     </div>
                     <div id="smarteditor">
-                        <textarea name="editorTxt" id="editorTxt"
-                                  rows="20" cols="10"
-                                  placeholder="내용을 입력해주세요"
-                                  style="width:100%;"></textarea>
+                        <textarea name="contents" class="form-control" id="contents"></textarea>
+<!--                        <textarea name="editorTxt" id="editorTxt"-->
+<!--                                  rows="20" cols="10"-->
+<!--                                  placeholder="내용을 입력해주세요"-->
+<!--                                  style="width:100%;"></textarea>-->
                     </div>
                     <div class="text-center mt-3">
                     <input type="button" id="cancelBtn" class="btn btn-primary" value="취소"/>

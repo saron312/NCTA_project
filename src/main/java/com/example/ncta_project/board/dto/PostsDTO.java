@@ -24,6 +24,9 @@ public class PostsDTO {
 
     private String writer;
 
+    private int commentListSize;
+
+
     public static PostsDTO fromEntity(Board board) {
         return PostsDTO.builder()
                 .bId(board.getBId())
@@ -33,6 +36,7 @@ public class PostsDTO {
                 .viewCount(board.getViewCount())
                 .modifiedAt(board.getModifiedAt())
                 .writer(board.getMember().getMemberId())
+                .commentListSize(board.getCommentList().size())
                 .build();
     }
 }
